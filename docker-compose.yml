@@ -1,0 +1,41 @@
+version: '4'
+
+services:
+  # PostgreSQL 服务
+  postgres:
+    image: postgres:latest
+    container_name: my_postgres
+    environment:
+      POSTGRES_USER: nestuser
+      POSTGRES_PASSWORD: nestpassword
+      POSTGRES_DB: nestjsdb
+    ports:
+      - "5432:5432"  # 将容器内的 5432 端口映射到宿主机的 5432 端口
+    networks:
+      - my_network   # 使用自定义网络
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      #- postgres_data:/var/lib/postgresql/data  # 数据持久化
+
+  # NestJS 应用服务
+  app:
+    build: .  # 假设你有 Dockerfile 来构建 NestJS 应用镜像
+    container_name: nest_app
+    environment:
+      DATABASE_HOST: my_postgres  # 使用 PostgreSQL 容器名称作为数据库主机
+      DATABASE_PORT: 5432
+      DATABASE_USER: nestuser
+      DATABASE_PASSWORD: nestpassword
+      DATABASE_NAME: nestjsdb
+    depends_on:
+      - postgres  # 确保数据库先启动
+    networks:
+      - my_network   # 使用自定义网络
+
+networks:
+  my_network:
+    driver: bridge  # 使用 bridge 网络驱动
+
+volumes:
+  postgres_data:  # 定义持久化数据卷
+
