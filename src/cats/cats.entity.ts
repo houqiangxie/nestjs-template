@@ -4,15 +4,16 @@
  * @Author: houqiangxie
  * @Date: 2024-12-27 16:51:10
  * @LastEditors: houqiangxie
- * @LastEditTime: 2024-12-27 16:57:16
+ * @LastEditTime: 2024-12-30 15:50:28
  */
 import { IsNumber, IsString } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from '../user/user.entity';
 @Entity()
-export class CatEntity {
+export class Cat {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: number;
 
     @Column()
@@ -29,5 +30,8 @@ export class CatEntity {
     @ApiProperty({ description: '品种', example: 'test_breed' })
     @IsString()
     breed: string;
+
+    @ManyToOne(() => User, user => user.cat)
+    user: User
 
 }

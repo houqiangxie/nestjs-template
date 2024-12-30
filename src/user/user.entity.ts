@@ -1,12 +1,12 @@
 import { IsNumber, isString, IsString } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Cat } from '../cats/cats.entity';
 
 @Entity()
-export class UserEntity {
+export class User {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: number;
 
     @Column()
@@ -24,5 +24,8 @@ export class UserEntity {
     @ApiProperty({ description: '品种', example: 'test_breed' })
     @IsString()
     breed: string;
+
+    @OneToMany(() => Cat, cat => cat.user)
+    cat: Cat
 
 }

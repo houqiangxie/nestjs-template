@@ -1,17 +1,17 @@
 import { Controller, Get, Req, Post, HttpCode, Header, Redirect, Query, Param, Body, Res, HttpStatus, Delete, Put, UseFilters, ForbiddenException, ParseIntPipe, UsePipes } from '@nestjs/common';
 import { CatsService } from './cats.service';
-import {CreateCatDto}from './cats.interface'
+import {Cat}from './cats.entity'
 import { HttpExceptionFilter } from '../common/filter/http-exception.filter';
 import { ValidationPipe } from '../common/pipe/validation.pipe';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-@ApiTags('cats')
+@ApiTags('cats test')
 @Controller('cats')
 // @UseFilters(HttpExceptionFilter)
 export class CatsController {
     constructor(private readonly catsService: CatsService) {}
     @Get()
-    async findAll(@Req() req: Request, @Res({ passthrough: true }) res): Promise<CreateCatDto[]> {
+    async findAll(@Req() req: Request, @Res({ passthrough: true }) res): Promise<Cat[]> {
         res.status(HttpStatus.OK)
         return this.catsService.findAll();
     }
@@ -22,12 +22,12 @@ export class CatsController {
     @ApiOperation({ summary: '更新信息', description: '用户通过此接口更新信息' })
     @ApiResponse({ status: 201, description: '更新成功' })
     @ApiResponse({ status: 400, description: '参数错误' })
-    async create(@Body() createCatDto: CreateCatDto, @Res({ passthrough: true }) res) {
-        this.catsService.create(createCatDto);
+    async create(@Body() Cat: Cat, @Res({ passthrough: true }) res) {
+        this.catsService.create(Cat);
     }
 
     @Get(':id')
-    async findOne(@Param('id', ParseIntPipe) id): Promise<CreateCatDto> {
+    async findOne(@Param('id', ParseIntPipe) id): Promise<Cat> {
         return this.catsService.findOne(id);
     }
 
@@ -37,7 +37,7 @@ export class CatsController {
     }
 
     @Put(':id')
-    async update(@Param('id', ParseIntPipe) id, @Body() updateCatDto: CreateCatDto) {
+    async update(@Param('id', ParseIntPipe) id, @Body() updateCatDto: Cat) {
          this.catsService.update(id, updateCatDto);
     }
 

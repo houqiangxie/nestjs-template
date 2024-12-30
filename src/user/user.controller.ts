@@ -9,7 +9,7 @@
 import { Body, Controller, Delete, Get, Post, ParseIntPipe,Param, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { UserService } from "./user.service";
-import { UserEntity } from "./user.entity";
+import { User } from "./user.entity";
 @ApiTags('用户')
 @Controller('user')
 export class UserController {
@@ -21,7 +21,7 @@ export class UserController {
     }
 
     @Post()
-    create(@Body() user:UserEntity) {
+    create(@Body() user:User) {
         this.userService.create(user);
     }
 
@@ -36,7 +36,7 @@ export class UserController {
     }
 
     @Put(':id')
-    update(@Param('id', ParseIntPipe) id: number, @Body() user: UserEntity) {
+    update(@Param('id', ParseIntPipe) id: number, @Body() user: User) {
         this.userService.update(id, user);
     }
 }
