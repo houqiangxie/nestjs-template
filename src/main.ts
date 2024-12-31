@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { join } from 'path';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -34,6 +35,8 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new AllExceptionFilter());
   app.useGlobalGuards(new JwtAuthGuard());
+  // Serve uploaded files statically
+  app.useStaticAssets(join(__dirname, '..', 'uploads')); // This serves files from the 'uploads' folder
   await app.listen(3000);
 }
 bootstrap();
