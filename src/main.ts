@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AllExceptionFilter } from './common/filter/all-exception.filter';
-// import { ValidationPipe } from './common/pipe/validation.pipe';
+import { JwtAuthGuard } from './common/guard/jwt-auth.guard';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
@@ -24,14 +24,6 @@ async function bootstrap() {
       filter: true, // 启用过滤功能，可以根据关键词搜索 API
       showRequestDuration: true, // 显示请求持续时间
       tagsSorter: 'alpha', // 按字母顺序排序标签
-      // 自定义 CSS 文件路径
-      // customCssUrl: 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.50.0/swagger-ui.css',
-      // customJs: `
-      // const customJs = function() {
-      //     document.querySelector('.swagger-ui .topbar').style.backgroundColor = '#00f';
-      //   }
-      //   customJs();
-      // `,
       },
   });
 
@@ -41,7 +33,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new AllExceptionFilter());
-
+  app.useGlobalGuards(new JwtAuthGuard());
   await app.listen(3000);
 }
 bootstrap();
