@@ -9,7 +9,6 @@
 import { IsNumber, IsString } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { User } from '../user/user.entity';
 @Entity()
 export class Cat {
 
@@ -30,8 +29,5 @@ export class Cat {
     @ApiProperty({ description: '品种', example: 'test_breed' })
     @IsString()
     breed: string;
-
-    @ManyToOne(() => User, user => user.cat)
-    user: User
 
 }
