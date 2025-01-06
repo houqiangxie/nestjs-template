@@ -82,16 +82,7 @@ Nest is [MIT licensed](LICENSE).
 
 
 
-# 进入docker 数据库
- ## docker exec -it my_postgres psql -U postgres     docker exec -it my_postgres psql -U nestuser  -d nestdb 
- ## CREATE ROLE nestuser WITH LOGIN PASSWORD '123456'; 创建角色
- ## ALTER ROLE nestuser CREATEDB;  ALTER ROLE nestuser WITH SUPERUSER;  为角色分配数据库创建权限 
-##  CREATE DATABASE nestdb; 创建数据库
 
-
- ## GRANT CONNECT ON DATABASE nestdb TO nestuser; 角色能连接到数据库、 通常，数据库连接的权限默认是禁止的。如果你希望角色能够连接到某个数据库（例如 nestdb），你需要为该角色授权：
-
-## GRANT ALL PRIVILEGES ON DATABASE nestdb TO nestuser;  为角色授予数据库权限
 
 
 
