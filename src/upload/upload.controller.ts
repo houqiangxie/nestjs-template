@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Param, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { ApiTags, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiTags, ApiBody, ApiConsumes,ApiBearerAuth } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import * as fs from 'fs';
@@ -20,6 +20,7 @@ const multerOptions = {
 };
 
 @ApiTags('文件上传')
+@ApiBearerAuth()
 @Controller('upload')
 export class UploadController {
     constructor(private readonly uploadService: UploadService) { }

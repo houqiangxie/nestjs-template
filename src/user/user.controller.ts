@@ -4,15 +4,16 @@
  * @Author: houqiangxie
  * @Date: 2024-12-27 17:09:05
  * @LastEditors: houqiangxie
- * @LastEditTime: 2024-12-31 15:36:05
+ * @LastEditTime: 2025-01-06 16:51:21
  */
 import { Body, Controller, Delete, Get, Post, ParseIntPipe,Param, Put } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { UserService } from "./user.service";
 import { User } from "./user.entity";
 import {Post as PostEntity} from './post.entity'
 @ApiTags('用户')
 @Controller('user')
+@ApiBearerAuth()
 export class UserController {
     constructor(private readonly userService: UserService) { }
 

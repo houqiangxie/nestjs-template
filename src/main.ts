@@ -39,7 +39,7 @@ async function bootstrap() {
   // jwt 鉴权
   const reflector = app.get(Reflector);
   app.useGlobalGuards(new JwtAuthGuard(reflector));
-  
+
   // app.enableCors({
   //   allowedHeaders: ['Authorization'],
   // });
