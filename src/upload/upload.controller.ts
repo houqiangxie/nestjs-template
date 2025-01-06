@@ -3,10 +3,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FileMetadata } from './file.entity'; // Import the FileMetadata entity
-import * as path from 'path';
-import * as fs from 'fs';
-import * as multer from 'multer';
+import { FileMetadata } from './file.entity'
+import { UploadService } from './upload.service';
+import { Express } from 'express';
 
 // Multer options for file upload configuration
 const multerOptions = {
@@ -27,8 +26,7 @@ const multerOptions = {
 @Controller('upload')
 export class UploadController {
     constructor(
-        @InjectRepository(FileMetadata)
-        private fileRepository: Repository<FileMetadata>, // Inject FileMetadata repository to save file info in DB
+        private uploadService: UploadService, // Inject the UploadService to handle file upload
     ) { }
 
     @Post('single')
@@ -39,26 +37,6 @@ export class UploadController {
     })
     @UseInterceptors(FileInterceptor('file', multerOptions)) // Handle file upload with multer
     async uploadFile(@UploadedFile() file: Express.Multer.File) {
-        // Log file information for debugging
-        // Prepare file metadata to be saved in the database
-        const fileMetadata = new FileMetadata();
-        fileMetadata.fileName = file.originalname;
-        fileMetadata.fileUrl = path.join(__dirname, '..', 'uploads', file.filename);
-        fileMetadata.size = file.size;
-        fileMetadata.mimeType = file.mimetype;
-
-        // Save the file metadata in the database
-        await this.fileRepository.save(fileMetadata);
-
-        return {
-            message: '文件上传成功',
-            fileMetadata: {
-                id: fileMetadata.id,
-                fileName: fileMetadata.fileName,
-                fileUrl: fileMetadata.fileUrl,
-                size: fileMetadata.size,
-                mimeType: fileMetadata.mimeType,
-            },
-        };
+        return await this.uploadService.saveFileMetadata(file)
     }
 }
