@@ -2,6 +2,7 @@ import { Controller, Post, Body,Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/common/decorator/public.decorator';
+import { Auth } from './auth.entity';
 @ApiTags('登录验证')
 @Controller('auth')
 export class AuthController {
@@ -10,9 +11,8 @@ export class AuthController {
     // Login endpoint to authenticate and return JWT token
     @Public() // Allow access to this route without authentication
     @Post('login')
-    async login(@Body() loginDto: { username: string; password: string }) {
-        const user = await this.authService.validateUser(loginDto.username, loginDto.password);
-
+    async login(@Body() loginDto: Auth) {
+        const user = await this.authService.validateUser(loginDto.userName, loginDto.password);
         if (!user) {
             throw new Error('Invalid credentials'); // Handle invalid login (you can customize this)
         }

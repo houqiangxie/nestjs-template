@@ -35,9 +35,14 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new AllExceptionFilter());
-  // Retrieve the Reflector instance from the app's container
+
+  // jwt 鉴权
   const reflector = app.get(Reflector);
-  // app.useGlobalGuards(new JwtAuthGuard(reflector));
+  app.useGlobalGuards(new JwtAuthGuard(reflector));
+  
+  // app.enableCors({
+  //   allowedHeaders: ['Authorization'],
+  // });
   // Serve uploaded files statically
   app.useStaticAssets(join(__dirname, '..', 'uploads')); // This serves files from the 'uploads' folder
   await app.listen(3000);

@@ -3,8 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtService } from '@nestjs/jwt';
 
-
-export const secretKey = 'yourSecretKey'; // Secret key for JWT token
+export const secretKey = 'Authorization'; // Secret key for JWT token
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

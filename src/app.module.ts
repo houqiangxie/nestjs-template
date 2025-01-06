@@ -4,7 +4,7 @@
  * @Author: houqiangxie
  * @Date: 2024-12-26 09:22:46
  * @LastEditors: houqiangxie
- * @LastEditTime: 2024-12-30 14:40:39
+ * @LastEditTime: 2025-01-06 15:18:35
  */
 import { Module, MiddlewareConsumer, NestModule, RequestMethod, Dependencies } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -15,13 +15,15 @@ import { LoggerMiddleware } from './common/middleware/Logger.middleware';
 import { CatsModule } from './cats/cats.module';
 import { UserModule } from './user/user.module';
 import {UploadModule} from './upload/upload.module'
+import { AuthModule } from './auth/auth.module';
 // @Dependencies(DataSource)
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseConfig),
     CatsModule,
     UserModule,
-    UploadModule
+    UploadModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],

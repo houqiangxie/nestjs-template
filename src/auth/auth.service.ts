@@ -4,7 +4,7 @@
  * @Author: houqiangxie
  * @Date: 2024-12-31 16:27:57
  * @LastEditors: houqiangxie
- * @LastEditTime: 2024-12-31 16:42:11
+ * @LastEditTime: 2025-01-06 15:31:32
  */
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -23,8 +23,8 @@ export class AuthService {
     // Validate user by userName and password
     async validateUser(userName: string, password: string): Promise<any> {
         const user = await this.userRepository.findOne({ where: { userName } });
-        const hashPassword = await this.hashPassword(password);
-        if (user && bcrypt.compareSync(hashPassword, user.password)) {
+        // const hashPassword = await this.hashPassword(password);
+        if (user && bcrypt.compareSync(password, user.password)) {
             const { password, ...result } = user; // Remove password from user data
             return result;
         }
