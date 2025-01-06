@@ -1,13 +1,14 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { AllExceptionFilter } from './common/filter/all-exception.filter';
 import { JwtAuthGuard } from './common/guard/jwt-auth.guard';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
     // Swagger 配置
     const config = new DocumentBuilder()
@@ -34,7 +35,9 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new AllExceptionFilter());
-  app.useGlobalGuards(new JwtAuthGuard());
+  // Retrieve the Reflector instance from the app's container
+  const reflector = app.get(Reflector);
+  // app.useGlobalGuards(new JwtAuthGuard(reflector));
   // Serve uploaded files statically
   app.useStaticAssets(join(__dirname, '..', 'uploads')); // This serves files from the 'uploads' folder
   await app.listen(3000);

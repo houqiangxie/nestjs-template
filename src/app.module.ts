@@ -14,12 +14,14 @@ import { databaseConfig } from './config/database.config'
 import { LoggerMiddleware } from './common/middleware/Logger.middleware';
 import { CatsModule } from './cats/cats.module';
 import { UserModule } from './user/user.module';
+import {UploadModule} from './upload/upload.module'
 // @Dependencies(DataSource)
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseConfig),
     CatsModule,
-    UserModule
+    UserModule,
+    UploadModule
   ],
   controllers: [],
   providers: [],
