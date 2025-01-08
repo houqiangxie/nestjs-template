@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: houqiangxie
+ * @Date: 2024-12-26 09:22:46
+ * @LastEditors: houqiangxie
+ * @LastEditTime: 2025-01-08 16:14:27
+ */
 import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { join } from 'path';
@@ -6,7 +14,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { AllExceptionFilter } from './common/filter/all-exception.filter';
-import { JwtAuthGuard } from './common/guard/jwt-auth.guard';
+// import { JwtAuthGuard } from './common/guard/jwt-auth.guard';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
@@ -37,8 +45,8 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionFilter());
 
   // jwt 鉴权
-  const reflector = app.get(Reflector);
-  app.useGlobalGuards(new JwtAuthGuard(reflector));
+  // const reflector = app.get(Reflector);
+  // app.useGlobalGuards(new JwtAuthGuard(reflector));
 
   // app.enableCors({
   //   allowedHeaders: ['Authorization'],

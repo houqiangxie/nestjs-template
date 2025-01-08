@@ -4,13 +4,14 @@
  * @Author: houqiangxie
  * @Date: 2024-12-27 17:09:05
  * @LastEditors: houqiangxie
- * @LastEditTime: 2025-01-06 16:51:21
+ * @LastEditTime: 2025-01-07 14:28:46
  */
-import { Body, Controller, Delete, Get, Post, ParseIntPipe,Param, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post, ParseIntPipe,Param, Put, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { UserService } from "./user.service";
 import { User } from "./user.entity";
-import {Post as PostEntity} from './post.entity'
+import { Post as PostEntity } from './post.entity'
+import { ClassSerializerInterceptor } from "@nestjs/common";
 @ApiTags('用户')
 @Controller('user')
 @ApiBearerAuth()
@@ -28,8 +29,9 @@ export class UserController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.userService.findOne(id);
+    @UseInterceptors(ClassSerializerInterceptor)
+    async findOne(@Param('id') id: string) {
+        return new User({...await this.userService.findOne(id)});
     }
 
     @Delete(':id')

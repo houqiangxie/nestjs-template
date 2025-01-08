@@ -1,4 +1,4 @@
-import { Controller, Post, Body,Get } from '@nestjs/common';
+import { Controller, Post, Body,Get,Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/common/decorator/public.decorator';
@@ -18,6 +18,15 @@ export class AuthController {
         }
 
         return this.authService.login(user); // Return JWT token
+    }
+
+
+    // Logout endpoint to invalidate JWT token
+    @Public()
+    @Post('logout')
+    async logout(@Req() req) {
+        const token = req.headers.authorization.split(' ')[1];
+        return this.authService.logout(token);
     }
 
     @Public() // Mark this route as public for CAPTCHA as well

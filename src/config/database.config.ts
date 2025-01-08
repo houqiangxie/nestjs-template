@@ -1,6 +1,6 @@
 // src/config/database.config.ts
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-
+import { redisStore } from 'cache-manager-redis-store';
 export const databaseConfig: TypeOrmModuleOptions = {
     type: 'postgres',
     host: process.env.DB_HOST || 'localhost',
@@ -14,3 +14,11 @@ export const databaseConfig: TypeOrmModuleOptions = {
     logging: process.env.NODE_ENV !== 'production',
     // ssl: process.env.DB_SSL === 'true',
 };
+
+export const redisConfig = {
+    store: redisStore,
+    host: 'localhost',
+    port: 6379,
+    ttl: 0, // No expiration by default
+    isGlobal: true,
+}
