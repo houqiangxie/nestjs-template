@@ -4,7 +4,7 @@
  * @Author: houqiangxie
  * @Date: 2024-12-31 16:27:57
  * @LastEditors: houqiangxie
- * @LastEditTime: 2025-01-08 16:41:57
+ * @LastEditTime: 2025-01-09 10:03:48
  */
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -43,7 +43,6 @@ export class AuthService {
         return {
             accessToken,
             refreshToken,
-            message:'登录成功'
         };
     }
 

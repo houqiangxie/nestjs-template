@@ -4,6 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Post } from "./post.entity";
 import * as bcrypt from 'bcryptjs';
+import { paginate,PaginatedResult } from "src/common/pagination";
 @Injectable()
 export class UserService {
     constructor(
@@ -12,8 +13,10 @@ export class UserService {
         @InjectRepository(Post)
         private postRepository: Repository<Post>
     ) { }
-    async findAll():Promise<User[]> {
-        return this.userRepository.find({relations:['posts']});
+    async findAll(): Promise<PaginatedResult<User>> {
+        const query = this.userRepository.createQueryBuilder('user')
+            .leftJoinAndSelect('user.posts', 'post');
+        return await paginate(query, { page: 1, pageSize: 10 });
     }
 
     async findOne(id: string): Promise<User> {

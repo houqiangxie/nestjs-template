@@ -4,7 +4,7 @@
  * @Author: houqiangxie
  * @Date: 2024-12-31 16:44:45
  * @LastEditors: houqiangxie
- * @LastEditTime: 2025-01-08 16:14:56
+ * @LastEditTime: 2025-01-09 09:07:37
  */
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';

@@ -14,7 +14,6 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy, secretKey } from './jwt.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/user.entity'; // Import User entity for TypeORM
-import { RedisService } from 'src/common/service/redis.service';
 @Module({
     imports: [
         PassportModule,
@@ -24,7 +23,7 @@ import { RedisService } from 'src/common/service/redis.service';
         }),
         TypeOrmModule.forFeature([User]), // Register User entity
     ],
-    providers: [AuthService, JwtStrategy, RedisService],
+    providers: [AuthService, JwtStrategy],
     controllers: [AuthController],
     exports: [AuthService],
 })

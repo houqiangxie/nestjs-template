@@ -22,7 +22,6 @@ export class AuthController {
 
 
     // Logout endpoint to invalidate JWT token
-    @Public()
     @Post('logout')
     async logout(@Req() req) {
         const token = req.headers.authorization.split(' ')[1];

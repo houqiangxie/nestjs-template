@@ -13,7 +13,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-import { AllExceptionFilter } from './common/filter/all-exception.filter';
+import { GlobalExceptionFilter } from './common/filter/global-exception.filter';
 // import { JwtAuthGuard } from './common/guard/jwt-auth.guard';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -42,15 +42,12 @@ async function bootstrap() {
       transform: true, // 启用 class-transformer 转换
     }),
   );
-  app.useGlobalFilters(new AllExceptionFilter());
-
   // jwt 鉴权
   // const reflector = app.get(Reflector);
   // app.useGlobalGuards(new JwtAuthGuard(reflector));
 
-  // app.enableCors({
-  //   allowedHeaders: ['Authorization'],
-  // });
+  // 全局异常
+  app.useGlobalFilters(new GlobalExceptionFilter());
   // Serve uploaded files statically
   app.useStaticAssets(join(__dirname, '..', 'uploads')); // This serves files from the 'uploads' folder
   await app.listen(3000);

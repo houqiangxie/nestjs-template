@@ -4,7 +4,7 @@
  * @Author: houqiangxie
  * @Date: 2024-12-27 17:09:05
  * @LastEditors: houqiangxie
- * @LastEditTime: 2025-01-07 14:28:46
+ * @LastEditTime: 2025-01-09 09:50:35
  */
 import { Body, Controller, Delete, Get, Post, ParseIntPipe,Param, Put, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -12,6 +12,7 @@ import { UserService } from "./user.service";
 import { User } from "./user.entity";
 import { Post as PostEntity } from './post.entity'
 import { ClassSerializerInterceptor } from "@nestjs/common";
+import {Public}from 'src/common/decorator/public.decorator'
 @ApiTags('用户')
 @Controller('user')
 @ApiBearerAuth()
@@ -19,6 +20,7 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Get()
+    @Public()
     findAll() {
         return this.userService.findAll();
     }
