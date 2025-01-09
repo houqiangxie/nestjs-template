@@ -10,7 +10,6 @@ import { JwtAuthGuard } from './common/guard/jwt-auth.guard';
 import { ResponseInterceptor }from './common/filter/global-exception.filter'
 
 import { LoggerMiddleware } from './common/middleware/Logger.middleware';
-import { CatsModule } from './cats/cats.module';
 import { UserModule } from './user/user.module';
 import {UploadModule} from './upload/upload.module'
 import { AuthModule } from './auth/auth.module';
@@ -41,7 +40,6 @@ import { AuthModule } from './auth/auth.module';
         };
       },
     }),
-    CatsModule,
     UserModule,
     UploadModule,
     AuthModule,
