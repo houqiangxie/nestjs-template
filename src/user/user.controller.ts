@@ -4,7 +4,7 @@
  * @Author: houqiangxie
  * @Date: 2024-12-27 17:09:05
  * @LastEditors: houqiangxie
- * @LastEditTime: 2025-01-09 09:50:35
+ * @LastEditTime: 2025-01-10 16:34:55
  */
 import { Body, Controller, Delete, Get, Post, ParseIntPipe,Param, Put, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -13,6 +13,7 @@ import { User } from "./user.entity";
 import { Post as PostEntity } from './post.entity'
 import { ClassSerializerInterceptor } from "@nestjs/common";
 import {Public}from 'src/common/decorator/public.decorator'
+import { plainToInstance } from "class-transformer";
 @ApiTags('用户')
 @Controller('user')
 @ApiBearerAuth()
@@ -21,8 +22,8 @@ export class UserController {
 
     @Get()
     @Public()
-    findAll() {
-        return this.userService.findAll();
+    async findAll() {
+        return await this.userService.findAll()
     }
 
     @Post()
@@ -31,9 +32,8 @@ export class UserController {
     }
 
     @Get(':id')
-    @UseInterceptors(ClassSerializerInterceptor)
     async findOne(@Param('id') id: string) {
-        return new User({...await this.userService.findOne(id)});
+        return await this.userService.findOne(id)
     }
 
     @Delete(':id')
@@ -46,7 +46,7 @@ export class UserController {
         this.userService.update(id, user);
     }
 
-    @Put('/post/:id')
+    @Put('/post')
     updatePost(@Param('id') id: string, @Body() post: PostEntity) {
         this.userService.updatePost(id, post);
     }

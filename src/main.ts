@@ -4,8 +4,9 @@
  * @Author: houqiangxie
  * @Date: 2024-12-26 09:22:46
  * @LastEditors: houqiangxie
- * @LastEditTime: 2025-01-08 16:14:27
+ * @LastEditTime: 2025-01-10 15:54:51
  */
+import "reflect-metadata";
 import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { join } from 'path';

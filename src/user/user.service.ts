@@ -24,9 +24,7 @@ export class UserService {
     }
 
     async create(user: User) {
-        user.password = await this.hashPassword(user.password);
-        const posts = user.posts.map(post => this.postRepository.create(post));
-        return await this.userRepository.save(this.userRepository.create({...user,posts}));
+        return await this.userRepository.save(user);
     }
 
     async remove(id: string) {
@@ -39,21 +37,14 @@ export class UserService {
         const User = await this.findOne(id);
         if (User) {
             user.password = await this.hashPassword(user.password);
-            const posts = user.posts.map(post => this.postRepository.create(post));
-            return this.userRepository.save(Object.assign(User, user, {posts}));
+            return this.userRepository.save(Object.assign(User, user));
         }
         return null;
     }
 
     async updatePost(id: string, post: Post) {
-        const User = await this.findOne(id);
-        if (User) {
-            const Post = User.posts.find(post => post.id === post.id);
-            if (Post) {
-                Object.assign(Post, post);
-                return this.userRepository.save(User);
-            }else  return this.userRepository.save(Object.assign(User, {posts: [...User.posts, post]}));
-        }
+        const Post = await this.postRepository.findOne({where:{id}});
+        if (Post) return this.postRepository.save(Object.assign(Post, post));
         return null;
     }
 
