@@ -28,29 +28,22 @@ export class UserService {
     }
 
     async remove(id: string) {
-        const User = await this.findOne(id);
-        if (User) return this.userRepository.remove(User);
+        await this.userRepository.delete(id);
         return null;
     }
 
     async update(id: string, user: User) {
-        const User = await this.findOne(id);
-        if (User) {
-            user.password = await this.hashPassword(user.password);
-            return this.userRepository.save(Object.assign(User, user));
-        }
+        await this.userRepository.update(id, user);
         return null;
     }
 
     async updatePost(id: string, post: Post) {
-        const Post = await this.postRepository.findOne({where:{id}});
-        if (Post) return this.postRepository.save(Object.assign(Post, post));
+        await this.postRepository.update(id, post);
         return null;
     }
 
     async removePostByPostId( postId: string) {
-        const post = await this.postRepository.findOne({where:{id:postId}});
-        if (post) return this.postRepository.remove(post);
+        await this.postRepository.delete(postId);
         return null;
     }
 

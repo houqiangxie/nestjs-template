@@ -50,10 +50,10 @@ import { AuthModule } from './auth/auth.module';
     //   provide: APP_INTERCEPTOR,
     //   useClass: CacheInterceptor,
     // },
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: JwtAuthGuard,
+    // },
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
